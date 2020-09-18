@@ -1,3 +1,5 @@
+const { priceService, tripService, tripClass } = require("./services/service");
+
 let favoriteCityId = "rome";
 console.log(favoriteCityId);
 
@@ -22,26 +24,24 @@ console.log(parisId);
 console.log(nycId);
 console.log(otherCitiesId);
 
-class Trip {
-    constructor(id, name, imageUrl, price) {
-        this.id = id;
-        this.name = name;
-        this.imageUrl = imageUrl;
-        this._price = price;
-    }
+// class Trip {
+//     constructor(id, name, imageUrl, price) {
+//         this.id = id;
+//         this.name = name;
+//         this.imageUrl = imageUrl;
+//         this._price = price;
+//     }
 
-    getDefaultTrip() {
-        return this.id + " " + this.name + " " + this.imageUrl;
-    }
+//     getDefaultTrip() {
+//         return this.id + " " + this.name + " " + this.imageUrl;
+//     }
 
-    toString() {
-        return this;
-    }
+//     toString() {
+//         return this;
+//     }
+// }
 
-
-}
-
-const parisTrip = new Trip("paris", "Paris", "img/paris.jpg");
+const parisTrip = new tripClass("paris", "Paris", "img/paris.jpg");
 let { name } = parisTrip;
 console.log(name);
 
@@ -50,7 +50,7 @@ parisTrip._price = 100;
 console.log(parisTrip.toString());
 console.log(parisTrip.getDefaultTrip().toString());
 
-class FreeTrip extends Trip {
+class FreeTrip extends tripClass {
     constructor(id, name, imageUrl) {
         super(id, name, imageUrl);
         this._price = 0;
@@ -60,3 +60,11 @@ class FreeTrip extends Trip {
 
 freeTrip = new FreeTrip("nantes", "Nantes", "img/nantes.jpg");
 console.log(freeTrip.toString());
+
+price$ = priceService.findPriceByTripId(1);
+price$.then(price => console.log(price)).catch(error => console.log(error));
+
+trip$ = tripService.findByName("Paris");
+trip$.then(trip => console.log(trip)).catch(error => console.log(error));
+
+
